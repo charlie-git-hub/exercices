@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #morpion {
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px;
+            height: 300px;
+        }
+
+        .case {
+            width: 100px;
+            /* Set width for each cell */
+            height: 100px;
+            /* Set height for each cell */
+            border: 1px solid black;
+            box-sizing: border-box;
+            /* Ensure borders don't add to the size */
+            display: flex;
+            align-items: center;
+            /* Center content vertically */
+            justify-content: center;
+            /* Center content horizontally */
+            cursor: pointer;
+        }
+
+
+        .case[aria-checked="true"] {
+            background-color: lightgray;
+        }
+
+        .case[aria-checked="true"][data-who="player"]::after {
+            content: 'X';
+            color: red;
+            font-size: 2rem;
+        }
+        .case[aria-checked="true"][data-who="bot"]::after {
+            content: 'O';
+            color: blue;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="morpion">
+        <button class="case" id="1"></button>
+        <button class="case" id="2"></button>
+        <button class="case" id="3"></button>
+        <button class="case" id="4"></button>
+        <button class="case" id="5"></button>
+        <button class="case" id="6"></button>
+        <button class="case" id="7"></button>
+        <button class="case" id="8"></button>
+        <button class="case" id="9"></button>
+    </div>
+    <script>
+        let cases = document.querySelectorAll('.case');
+        let joueur = "O";
+        let winPos = [
+    [1, 2, 3], [4, 5, 6], 
+    [7, 8, 9], [1, 4, 7], 
+    [2, 5, 8], [3, 6, 9], 
+    [1, 5, 9], [3, 5, 7]
+]; 
+        cases.forEach(function (element) {
+            element.addEventListener('click', function () {
+           if (joueur == "X" && element.getAttribute('aria-checked') != 'true') {
+                joueur = "O";
+               
+                element.setAttribute('aria-checked', 'true');
+                element.setAttribute('data-who', 'bot');
+                win();
+            
+         } else if (joueur == "O" && element.getAttribute('aria-checked') != 'true') {
+                joueur = "X";
+                element.setAttribute('aria-checked', 'true');
+                element.setAttribute('data-who', 'player');
+                win();
+                
+            }})});
+
+
+    </script>
+
+
+</body>
+
+</html>
