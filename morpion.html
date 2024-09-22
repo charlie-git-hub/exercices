@@ -39,7 +39,7 @@
             color: red;
             font-size: 2rem;
         }
-        .case[aria-checked="true"][data-who="bot"]::after {
+        .case[aria-checked="true"][data-who="playerO"]::after {
             content: 'O';
             color: blue;
             font-size: 2rem;
@@ -74,7 +74,7 @@
                 joueur = "O";
                
                 element.setAttribute('aria-checked', 'true');
-                element.setAttribute('data-who', 'bot');
+                element.setAttribute('data-who', 'playerO');
                 win();
             
          } else if (joueur == "O" && element.getAttribute('aria-checked') != 'true') {
@@ -85,6 +85,36 @@
                 
             }})});
 
+            function win() {
+    let playerPositions = [];
+    let playerOPositions = [];
+
+    cases.forEach(function (element) {
+        if (element.getAttribute('data-who') === 'player') {
+            playerPositions.push(parseInt(element.id));
+        } else if (element.getAttribute('data-who') === 'playerO') {
+            playerOPositions.push(parseInt(element.id));
+        }
+    });
+
+    winPos.forEach(function (combination) {
+        if (combination.every(pos => playerPositions.includes(pos))) {
+            alert("Le joueur (X) a gagné !");
+            resetGame();
+        } else if (combination.every(pos => playerOPositions.includes(pos))) {
+            alert("Le joueur (O) a gagné !");
+            resetGame();
+        }
+    });
+}
+
+function resetGame() {
+    cases.forEach(function (element) {
+        element.setAttribute('aria-checked', 'false');
+        element.removeAttribute('data-who');
+    });
+    joueur = "O";
+}
 
     </script>
 
